@@ -1,0 +1,100 @@
+<div class="container">   
+    <div class="row">        
+        <div class="col-12">
+            <div class="card mt-4 shadow rounded-card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h5 class="title-content">Tipo Persona</h5>
+                            <span class="bradgrounds">
+                                <a href="/">Dashboard</a>
+                                <a href="#">Tipo Persona</a>
+                            </span>
+                        </div>
+                        <div class="col-12 col-md-4 mt-4">
+                            <input type="search" class="form-control buscador shadow" placeholder="Buscar...">
+                        </div>
+                        <div class="col-12 col-md-8 d-flex align-items-center justify-content-end">
+                            <div class="group-buttons">
+                                <span class="btn-actions shadow" (click)="mostrarModal()"><i class="las la-plus"></i> Nuevo</span>
+                                <span class="btn-actions edit shadow" (click)="editModal()"><i class="las la-edit"></i></span>
+                                <span class="btn-actions delete shadow" (click)="deleteitem()"><i class="las la-trash"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- secccion de notificacion -->   
+        <div class="col-12 mb-0" *ngIf="toogleToast">
+            <div [class]="toastCss">
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                {{ message }}
+              </div>
+        </div>
+
+        <div class="col-12 col-md-12">
+            <div class="card mt-4 shadow rounded-card">
+                <div class="card-body">
+                    <table class="table table-hover table-styles" id="table">
+                        <thead>
+                            <tr>
+                                <th class="th-head">Tipo Persona</th>
+                                <th class="th-head">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let tipopersona of tipoPersonas" attr.data-item="{{tipopersona.id}}" [class]="trClass" (click)="editItem($event, tipopersona)">
+                                <td class="td-body">{{ tipopersona.tipo }}</td>                               
+                                <td class="td-body"><span class="badge bg-success">{{ tipopersona.estado }}</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- secction modals -->
+<div class="modal fade show" tabindex="-1" aria-hidden="true" id="modalForm" *ngIf="toogleModal" style="display: block;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">{{ titleModal }}</h5>
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true"></span>
+            </button> -->
+        </div>
+        <form #f="ngForm" (ngSubmit)="sendForm()" autocomplete="off">
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-12 col-md-8">
+                        <div class="form-group">
+                            <label for="tipo" class="label-form">Tipo Persona</label>
+                            <input type="text" class="form-control" name="tipo" id="tipo" [(ngModel)]="tipoFm">
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-4">
+                        <div class="form-group">
+                            <label for="estado" class="label-form">Estado</label>
+                            <select class="form-control text-muted" name="estado" id="estado" [(ngModel)]="estadoFm">
+                                <option value="Activo" selected>Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">{{ actionButton }}</button>
+                <button type="button" class="btn btn-danger" (click)="closeModal()" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+        </form>
+    </div>
+    </div>
+</div>
